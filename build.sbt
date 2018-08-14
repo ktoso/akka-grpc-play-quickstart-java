@@ -1,21 +1,21 @@
-import akka.grpc.gen.javadsl.play._
+import akka.grpc.gen.scaladsl.play._
 
-name := """akka-grpc-play-quickstart-java"""
+name := """akka-grpc-play-quickstart-scala"""
 version := "1.0-SNAPSHOT"
 
 lazy val root = (project in file("."))
-  .enablePlugins(PlayJava)
+  .enablePlugins(PlayScala)
   .enablePlugins(AkkaGrpcPlugin) // enables source generation for gRPC
   .enablePlugins(PlayAkkaHttp2Support) // enables serving HTTP/2 and gRPC
-    .settings(
-      akkaGrpcGeneratedLanguages := Seq(AkkaGrpc.Java),
-      akkaGrpcExtraGenerators += PlayJavaClientCodeGenerator,
-      akkaGrpcExtraGenerators += PlayJavaServerCodeGenerator,
-    )
+  .settings(
+  akkaGrpcGeneratedLanguages := Seq(AkkaGrpc.Scala),
+  akkaGrpcExtraGenerators += PlayScalaClientCodeGenerator,
+  akkaGrpcExtraGenerators += PlayScalaServerCodeGenerator,
+)
 
 scalaVersion := "2.12.6"
 
-crossScalaVersions := Seq("2.11.12")
+crossScalaVersions := Seq("2.11.12", "2.12.6")
 
 libraryDependencies += guice
 
