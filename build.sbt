@@ -7,11 +7,16 @@ lazy val root = (project in file("."))
   .enablePlugins(PlayScala)
   .enablePlugins(AkkaGrpcPlugin) // enables source generation for gRPC
   .enablePlugins(PlayAkkaHttp2Support) // enables serving HTTP/2 and gRPC
-  .settings(
-  akkaGrpcGeneratedLanguages := Seq(AkkaGrpc.Scala),
-  akkaGrpcExtraGenerators += PlayScalaClientCodeGenerator,
-  akkaGrpcExtraGenerators += PlayScalaServerCodeGenerator,
-)
+    .settings(
+      akkaGrpcGeneratedLanguages := Seq(AkkaGrpc.Scala),
+      akkaGrpcExtraGenerators += PlayScalaClientCodeGenerator,
+      akkaGrpcExtraGenerators += PlayScalaServerCodeGenerator,
+      PlayKeys.devSettings ++= Seq(
+        "play.server.http.port" -> "disabled",
+        "play.server.https.port" -> "9443",
+        "play.server.https.keyStore.path" -> "./generated.keystore",
+      )
+    )
 
 scalaVersion := "2.12.6"
 
@@ -28,3 +33,5 @@ libraryDependencies += "org.awaitility" % "awaitility" % "2.0.0" % Test
 
 // Make verbose tests
 testOptions in Test := Seq(Tests.Argument(TestFrameworks.JUnit, "-a", "-v"))
+
+
